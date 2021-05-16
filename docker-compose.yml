@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+
+  prime:
+    container_name: optimus_prime
+    image: docker.io/raene/prime-numbers:production
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - "3000:3000"
+    restart: always

@@ -1,0 +1,35 @@
+{
+  "name": "primenumber",
+  "version": "1.0.0",
+  "description": "A simple web app to calculate prime numbers multiplicative sums",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles --runInBand --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raene/prime-numbers.git"
+  },
+  "author": "Abdulrahman Salau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raene/prime-numbers/issues"
+  },
+  "homepage": "https://github.com/Raene/prime-numbers#readme",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^26.6.3",
+    "supertest": "^6.1.3"
+  }
+}

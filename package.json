@@ -1,0 +1,19 @@
+{
+  "name": "primenumber",
+  "version": "1.0.0",
+  "description": "A simple web app to calculate prime numbers multiplicative sums",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raene/prime-numbers.git"
+  },
+  "author": "Abdulrahman Salau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raene/prime-numbers/issues"
+  },
+  "homepage": "https://github.com/Raene/prime-numbers#readme"
+}

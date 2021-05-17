@@ -30,3 +30,7 @@ Available routes include:
 1. Get: '/' this is the default route and it always returns the multiplication table of the first ten Prime numbers
 
 2. Post: '/' this takes in a payload `{primeNumbers: [<primenumbers>] }` it returns the multiplication table based on the payload
+
+### Frontend
+
+To run the front end simply open the folder and launch the index.html file there

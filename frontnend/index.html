@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+  <!-- Mobile Specific Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Favicon-->
+  <link rel="shortcut icon" href="" />
+  <!-- Author Meta -->
+  <meta name="author" content="" />
+  <!-- Meta Description -->
+  <meta name="description" content="" />
+  <!-- Meta Keyword -->
+  <meta name="keywords" content="" />
+  <!-- meta character set -->
+  <meta charset="UTF-8" />
+  <!-- Site Title -->
+  <title>Prime Number Calculator</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!--
+CSS
+============================================= -->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+
+<body>
+  <!-- Start header section -->
+  <header class="header-area" id="header-area">
+    <div class="dope-nav-container dope-sticky breakpoint-off">
+      <div class="container">
+        <div class="row">
+          <nav class="dope-navbar justify-content-center" id="dopeNav">
+            <a style="font-size: 20px; color: #ffffff; font-weight: 900;" class="nav-brand" href="index.html">
+              P-Calc
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Start header section -->
+  <!-- Start calculator section -->
+  <section id="p-calc-app" class="banner-section relative section-gap-full" id="banner-section">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+      <div v-if="!showAnswers && !showPrimeForm" class="row align-items-center">
+        <div class="col-md-12 banner-right text-center">
+          <img class="img-fluid banner-img" src="assets/img/1-landing-page-illustration.svg" alt="" />
+        </div>
+        <div class="col-md-9 mx-auto banner-left text-center">
+          <p class="anime-banner-p animate__animated animate__fadeInUp banner-text text-center mt-5">
+            Prime Number Calculator
+          </p>
+          <p class="anime-banner-p animate__animated animate__fadeInUp text-center">
+            We were called by god to fight crime and calculate prime numbers
+          </p>
+          <a @click.prevent="firstTenPrimes" href="#" class="video-btn primary-btn mb-4">Multiply first 10 prime numbers</a>
+          <p style="margin-bottom: 0;" class="anime-banner-p animate__animated animate__fadeInUp text-center">
+            OR
+          </p>
+          <a @click.prevent="showPrimeForm=true" href="#" class="video-btn primary-btn mt-4">Enter prime numbers to multiply</a>
+        </div>
+      </div>
+      <!-- Prime number multiplication table -->
+      <div v-else-if="showAnswers===true && showPrimeForm===false" class="row mt-5">
+        <div class="col-md-8 mx-auto text-center">
+          <div class="prime-table">
+            <table>
+              <tr>
+                <th></th>
+                <th v-for="(val, index) in primeNumbers" :key="index">{{ val }}</th>
+              </tr>
+              <tr v-for="(val, index) in tableValues" :key="index">
+                <td>{{ index }}</td>
+                <td v-for="(num, j) in val" :key="j">{{ num }}</td>
+              </tr>
+            </table>
+            <a @click="goBack" href="#" class="video-btn primary-btn mt-4">Go back</a>
+          </div>
+        </div>
+      </div>
+      <!-- Form to enter prime numbers -->
+      <div v-if="showPrimeForm" class="row align-items-center signup-container">
+        <div class="col-md-5 banner-right text-center">
+          <img class="img-fluid banner-img" src="assets/img/5-Add-BVN-illustration.svg" alt="" />
+        </div>
+        <div class="col-md-7 banner-left text-left">
+          <p class="anime-banner-p animate__animated animate__fadeInUp banner-text text-left mt-5">
+            Custom Prime Numbers
+          </p>
+          <p class="anime-banner-p animate__animated animate__fadeInU text-left mt-4">
+            Enter prime numbers seperated by commas ( , )
+          </p>
+          <form class="email-form d-flex flex-column justify-content-between">
+            <input v-model="customPrimeValues" type="text" placeholder="Enter here" class="form-control email-input">
+            <span v-if="showError" class="mt-2 text-danger text-left">{{ spanValue }}</span>
+          </form>
+          <div class="d-flex justify-content-between">
+            <a @click.prevent="customPrimes" href="#" class="video-btn primary-btn mt-5">Calculate</a>
+            <a @click.prevent="goBack" href="#" class="video-btn primary-btn mt-5">Go back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end calculator section -->
+  <!-- JS -->
+  <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
+  <script src="assets/js/on-scroll.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="node_modules/axios/dist/axios.js"></script>
+  <script>
+  new Vue({
+    el: "#p-calc-app",
+    data: {
+      tableValues: {},
+      primeNumbers: [],
+      showAnswers: false,
+      showPrimeForm: false,
+      customPrimeValues: null,
+      spanValue: "",
+      showError: false
+    },
+    methods: {
+      firstTenPrimes() {
+        axios.get("http://localhost:3000/")
+          .then(res => {
+            this.tableValues = res.data.payload
+            this.primeNumbers = Object.keys(this.tableValues)
+            this.showAnswers = true
+          })
+      },
+
+      customPrimes() {
+        if (!this.customPrimeValues) {
+          this.displayError("please enter prime numbers")
+        } else if (this.customPrimeValues && !this.customPrimeValues.includes(",")) {
+          this.displayError("please, seperate numbers using commas")
+        } else {
+          const customPrimes = this.customPrimeValues.split(",")
+          axios.post("http://localhost:3000/", { primeNumbers: customPrimes })
+            .then(res => {
+              this.tableValues = res.data.payload
+              this.primeNumbers = Object.keys(this.tableValues)
+              this.showAnswers = true
+              this.showPrimeForm = false
+            })
+        }
+      },
+
+      goBack() {
+        this.showPrimeForm = false
+        this.showAnswers = false
+        this.customPrimeValues = null
+        this.showError = false
+      },
+
+      displayError(msg) {
+        this.spanValue = msg
+        this.showError = true
+        return
+      }
+    }
+  })
+  </script>
+</body>
+
+</html>
